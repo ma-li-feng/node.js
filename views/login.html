@@ -41,7 +41,7 @@
             <div class="mod-body clearfix">
                 <div class="content pull-left">
                     <h1 class="logo"><a href=""></a></h1>
-                    <h2></h2>
+                    <h2 id="msg" style="color:red"></h2>
                     <form action="/" method="post" id="login_form">
                         <ul>
                             <li>
@@ -54,7 +54,7 @@
                                 <i class="icon icon-delete"></i> <em></em>
                             </li>
                             <li class="last">
-                                <input type="submit" class="pull-right btn btn-large btn-primary" value="登录">
+                                <input type="submit" id="denglu" class="pull-right btn btn-large btn-primary" value="登录">
                                 <label>
                                     <input type="checkbox" value="1" name="remember_me" /> 记住我 </label>
                                 <a href="http://wenda.golaravel.com/account/find_password/">&nbsp;&nbsp;忘记密码</a>
@@ -78,6 +78,29 @@
             <span class="hidden-xs">Powered By <a href="http://www.itcast.cn" target="blank">ITcast</a></span>
         </div>
     </div>
+    <script>
+        $('#login_form').on('submit',function(e){
+            e.preventDefault()
+            var data = $(this).serialize()
+            $.ajax({
+                type:'post',
+                url:'/api/denglu',
+                data:data,
+                dataType:'json',
+                success:function(res){
+                    if(res.code == '001'){
+                       if(confirm('登录成功,去首页听歌?^_^')){
+                             //页面跳转
+                            location.href = '/user/index';  
+                       }
+                       return;
+                    }
+                    $('#msg').text(res.msg);
+                }
+
+            })
+        })
+    </script>
 </body>
 
 </html>

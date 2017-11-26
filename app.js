@@ -34,7 +34,22 @@ yhjk.get('/login',(req,res,next) => {
      res.render('login.html');
 })
 
-
+yhjk.get('/index',(req,res,next) => {
+    let id = req.session.man.id
+    db.q('select * from musics where uid = ?',[id],(err,data) => {
+        res.render('index.html',{
+            data
+        })
+    })
+})
+yhjk.get('/edit',(req,res,next) => {
+    let id = req.session.man.id
+    db.q('select * from musics where uid = ?',[id],(err,data) => {
+        res.render('index.html',{
+            data
+        })
+    })
+})
 
 
 
