@@ -1,11 +1,12 @@
 // 引入数据库对象
 const mysql = require('mysql');
+const config = require('../config');
 const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: '127.0.0.1',
-    user: 'root',
-    password: '123456',
-    database: 'node_music'
+    connectionLimit: config.db_connectionLimit,
+    host: config.db_host,
+    user: config.db_user,
+    password: config.db_password,
+    database: config.db_database
 });
 
 //思考过程
@@ -32,7 +33,7 @@ const pool = mysql.createPool({
 //正常代码
 let q = function(sql,props,callback){
     pool.getConnection((err, connection)=> {
-        if(err) return callback(err,null);
+        if(err)return callback(err,null);
         connection.query(sql,props,(error, results)=>{
             connection.release();
             //不管有没有error,让外部判断
